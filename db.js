@@ -85,10 +85,10 @@ async function removeJson(name, route) {
     if(!cur || !_.hasIn(cur, path))
       return null
 
-    _.omit(cur, path)
+    let newOne = _.omit(cur, path)
 
-    await writeJson(name, cur)
-    return cur
+    await writeJson(name, newOne)
+    return newOne
   }catch(err) {
     console.log("An error occured while removing objects in JSON File.");
   }

@@ -31,12 +31,11 @@ async function getProperty (req, res, next) {
 async function updateProperty (req, res, next) {
   console.log('updateProperty')
   const { studentId, propertyName } = req.params;
-  const pJson = utils.buildObj(req.params[0], req.body)
+  const route = propertyName + req.params[0]
+  const pJson = utils.buildObj(route, req.body)
 
   try{
-    const response = await db.updateJson(studentId, {
-      [propertyName]: pJson
-    })
+    const response = await db.updateJson(studentId, pJson)
     res.status(200).json(response)
   }catch(e){
     next(e)
@@ -53,6 +52,7 @@ async function deleteProperty (req, res, next) {
     if(!ret){
       return res.status(404).send(null)
     }
+    console.log('Deleted successfully')
     res.json(ret)
   }catch(err){
     next(e)

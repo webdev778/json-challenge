@@ -9,11 +9,11 @@ const _trimProps = (props) => {
   if (props.length > 0 && props[props.length - 1] === '') props.pop()
 }
 
-const _generateJsonWithKeys = (keys, jsonObj = {}) => {
+const _arrayToJson = (keys, jsonObj = {}) => {
   if (keys.length === 0) return _body
   const key = keys[0];
   keys.shift()
-  jsonObj[key] = _generateJsonWithKeys(keys, jsonObj[key])
+  jsonObj[key] = _arrayToJson(keys, jsonObj[key])
   return jsonObj
 }
 
@@ -25,8 +25,8 @@ function buildObj (params, body) {
   if (params) {
     const props = params.split("/")
     _trimProps(props)
-    result = _generateJsonWithKeys(props, {})
-    console.log(result)
+    result = _arrayToJson(props, {})
+    console.log(JSON.stringify(result))
   }
 
   return result
