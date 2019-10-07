@@ -10,7 +10,15 @@ const app = express()
 
 app.use(bodyParser.json())
 
-app.get('/health', api.getHealth)
+const asyncHandler = fn => (req, res, next) =>
+Promise
+  .resolve(fn(req, res, next))
+  .catch(next);
+
+app.get('/health', asyncHandler(api.getHealth))
+app.get('/:studentId/:propertyName*', asyncHandler(api.getProperty))
+app.put('/:studentId/:propertyName*', asyncHandler(api.updateProperty))
+app.delete('/:studentId/:propertyName*', asyncHandler(api.deleteProperty))
 
 app.use(middleware.handleError)
 app.use(middleware.notFound)
