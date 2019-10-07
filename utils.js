@@ -36,7 +36,7 @@ function getKeyPath ( params ) {
   let result = null
 
   if (params) {
-    const props = params.split("//")
+    const props = params.split("/")
     _trimProps(props)
     result = props.join('.')
     console.log(result)
