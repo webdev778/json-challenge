@@ -113,7 +113,6 @@ tape('get-success', async function (t) {
 tape('get-fail', async function (t) {
   const url = `${endpoint}/${uuid}/property1/property4`
   jsonist.get(url, { 'key': 'value' }, (err, body, resp) => {
-    console.log(resp)
     if (err) t.error(err)
     t.ok(resp.statusCode === 404, 'should be not found 404 response')
     t.end()

@@ -16,7 +16,7 @@ async function getProperty (req, res, next) {
   console.log('getProperty')
   const { studentId, propertyName } = req.params;
   const route = propertyName+req.params[0]
-  console.log(route)
+
   try{
     const ret = await db.filterJson(studentId, route)
     if(!ret) {
@@ -36,9 +36,9 @@ async function updateProperty (req, res, next) {
 
   try{
     const response = await db.updateJson(studentId, pJson)
-    res.status(200).json(response)
-  }catch(e){
-    next(e)
+    res.json(response)
+  }catch(err){
+    next(err)
   }
 }
 
@@ -55,7 +55,7 @@ async function deleteProperty (req, res, next) {
     console.log('Deleted successfully')
     res.json(ret)
   }catch(err){
-    next(e)
+    next(err)
   }
 }
 

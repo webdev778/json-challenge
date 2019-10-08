@@ -17,79 +17,52 @@ const existFileSync = fs.existsSync
 const getPath = (name) => `./data/${name}.json`
 
 async function writeJson(name, jsonObj) {
-
-  var jsonContent = JSON.stringify(jsonObj)
-  console.log(jsonContent)
-  try {
-    await writeFileAsync(getPath(name), jsonContent, 'utf8')
-    console.log("JSON file has been saved")
-  } catch (err) {
-    console.log("An error occured while writing JSON Object to File.");
-    throw (err)
-  }
+  return writeFileAsync(getPath(name), JSON.stringify(jsonObj), 'utf8')
 }
 
 async function readJson(name) {
   const path = getPath(name)
-  try {
-    if(!existFileSync(path))
-      return null
 
-    const jsonContent = await readFileAsync(path)
-    console.log("JSON file opened successfully")
-    const jsonObj = JSON.parse(jsonContent.toString())
-    return jsonObj
+  if(!existFileSync(path))
+    return null
 
-    //return require(path)
-  } catch (err) {
-    console.log("An error occured while reading JSON Object to File.");
-    throw (err)
-  }
+  const jsonContent = await readFileAsync(path)
+
+  return JSON.parse(jsonContent.toString())
 }
 
 async function filterJson(name, route) {
-  console.log('filterJson')
   const path = utils.getKeyPath(route)
 
-  try{
-    let cur =  await readJson(name)
-    if(!cur) return null
-    let ret = _.at(cur, path)
-    console.log(ret)
-    return ret[0]
-  }catch(err) {
-    console.log("An error occured while filtering JSON File.");
-  }
+  const cur =  await readJson(name)
+
+  if(!cur)
+    return null
+
+  return _.at(cur, path)[0]
 }
 
 async function updateJson(name, jsonObj) {
-  console.log('updateJson')
+  let cur =  await readJson(name)
 
-  try{
-    let cur =  await readJson(name)
-    if(!cur) cur = {}
-    // let newOne = {...cur, ...jsonObj}
-    let newOne = _.merge(cur, jsonObj)
-    await writeJson(name, newOne)
-    return newOne
-  }catch(err) {
-    console.log("An error occured while updating JSON File.");
-  }
+  if(!cur) cur = {}
+
+  const newOne = _.merge(cur, jsonObj)
+  await writeJson(name, newOne)
+
+  return newOne
 }
 
 async function removeJson(name, route) {
   const path = utils.getKeyPath(route)
-  try{
-    let cur =  await readJson(name)
 
-    if(!cur || !_.hasIn(cur, path))
-      return null
+  const cur =  await readJson(name)
 
-    let newOne = _.omit(cur, path)
+  if(!cur || !_.hasIn(cur, path))
+    return null
 
-    await writeJson(name, newOne)
-    return newOne
-  }catch(err) {
-    console.log("An error occured while removing objects in JSON File.");
-  }
+  const newOne = _.omit(cur, path)
+  await writeJson(name, newOne)
+
+  return newOne
 }

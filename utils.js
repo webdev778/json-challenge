@@ -26,7 +26,6 @@ function buildObj (params, body) {
     const props = params.split("/")
     _trimProps(props)
     result = _arrayToJson(props, {})
-    console.log(JSON.stringify(result))
   }
 
   return result
@@ -39,7 +38,6 @@ function getKeyPath ( params ) {
     const props = params.split("/")
     _trimProps(props)
     result = props.join('.')
-    console.log(result)
   }
 
   return result
