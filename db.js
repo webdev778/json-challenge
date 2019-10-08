@@ -45,12 +45,10 @@ async function filterJson(name, route) {
 async function updateJson(name, jsonObj) {
   let cur =  await readJson(name)
 
-  if(!cur) cur = {}
+  const ret = _.merge(cur || {}, jsonObj)
+  await writeJson(name, ret)
 
-  const newOne = _.merge(cur, jsonObj)
-  await writeJson(name, newOne)
-
-  return newOne
+  return ret
 }
 
 async function removeJson(name, route) {
@@ -61,8 +59,8 @@ async function removeJson(name, route) {
   if(!cur || !_.hasIn(cur, path))
     return null
 
-  const newOne = _.omit(cur, path)
-  await writeJson(name, newOne)
+  const ret = _.omit(cur, path)
+  await writeJson(name, ret)
 
-  return newOne
+  return ret
 }
