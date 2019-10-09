@@ -1,6 +1,6 @@
 const tape = require('tape')
 const jsonist = require('jsonist')
-const fs = require('fs')
+// const fs = require('fs')
 
 const port = (process.env.PORT = process.env.PORT || require('get-port-sync')())
 const endpoint = `http://localhost:${port}`
@@ -52,7 +52,6 @@ tape('update-existing-value', async function (t) {
     t.end()
   })
 })
-
 
 tape('update-add-new-property(leaf)', async function (t) {
   const url = `${endpoint}/${uuid}/property1/property2`
@@ -123,7 +122,7 @@ tape('delete-ok', async function (t) {
   const url = `${endpoint}/${uuid}/property1/property2`
   jsonist.delete(url, (err, body) => {
     if (err) t.error(err)
-    t.deepEqual(body, {"property1":{"property3":{"key":"value"}}})
+    t.deepEqual(body, { 'property1': { 'property3': { 'key': 'value' } } })
     t.end()
   })
 })
@@ -136,7 +135,6 @@ tape('delete-fail', async function (t) {
     t.end()
   })
 })
-
 
 tape('cleanup', function (t) {
   server.close()

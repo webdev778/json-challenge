@@ -11,9 +11,9 @@ const app = express()
 app.use(bodyParser.json())
 
 const asyncHandler = fn => (req, res, next) =>
-Promise
-  .resolve(fn(req, res, next))
-  .catch(next);
+  Promise
+    .resolve(fn(req, res, next))
+    .catch(next)
 
 app.get('/health', asyncHandler(api.getHealth))
 app.get('/:studentId/:propertyName*', asyncHandler(api.getProperty))

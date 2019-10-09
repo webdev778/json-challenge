@@ -11,7 +11,7 @@ const _trimProps = (props) => {
 
 const _arrayToJson = (keys, jsonObj = {}) => {
   if (keys.length === 0) return _body
-  const key = keys[0];
+  const key = keys[0]
   keys.shift()
   jsonObj[key] = _arrayToJson(keys, jsonObj[key])
   return jsonObj
@@ -23,7 +23,7 @@ function buildObj (params, body) {
   _body = body
 
   if (params) {
-    const props = params.split("/")
+    const props = params.split('/')
     _trimProps(props)
     result = _arrayToJson(props, {})
   }
@@ -31,11 +31,11 @@ function buildObj (params, body) {
   return result
 }
 
-function getKeyPath ( params ) {
+function getKeyPath (params) {
   let result = null
 
   if (params) {
-    const props = params.split("/")
+    const props = params.split('/')
     _trimProps(props)
     result = props.join('.')
   }
